@@ -5,7 +5,7 @@
   border-radius: 5px;
 }
 
-.container {
+.wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,7 +17,7 @@
   padding: 50px;
   background-color: #000000;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'Times New Roman', Times, serif;
 }
 
