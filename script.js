@@ -1,50 +1,45 @@
-var generateBtn = document.querySelector("#generate");
-
-function writePassword() {
-  let passwordText = document.querySelector("#password");
-  
-  var passwordLength = 8 ;
-  var chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  var password = "";
-  
-  passwordText.value = password(length, charType);
-
-  function password(length, charType) {
-    let charGen = {
-      lowercase: 'abcdefghijklmnop',
-      uppercase: 'ABCDEFGHIJKLMNOP',
-      numbers: '0123456789',
-      symbols: '!@#$%^&*()-_=+',
-    };
-    
-    var charTypes = charType.toLowerCase().split(', ');
-    charSet = "";
-    for(var i=0; i < charTypes.length; i++) {
-      charSet += charGen[charTypes[i]];
-    }
-    
-    console.log(charSet);
-
-    var retVal = "";
-    
-    for (var i = 0; i < length; i++) {
-      retVal += charSet.charAt(Math.floor(Math.random() * charSet.length));
-    }
-    return retVal;
+const keys = {
+  upperCase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  lowerCase: "abcdefghijklmnopqrstuvwxyz",
+  number: "0123456789",
+  symbol: "@#$%^&*()_+~|}{[]></-="
+}
+const getKey = [
+  function upperCase() {
+    return keys.upperCase[Math.floor(Math.random() * keys.upperCase.length)];
+  },
+  function lowerCase() {
+    return keys.lowerCase[Math.floor(Math.random() * keys.lowerCase.length)];
+  },
+  function number() {
+    return keys.number[Math.floor(Math.random() * keys.number.length)];
+  },
+  function symbol() {
+    return keys.symbol[Math.floor(Math.random() * keys.symbol.length)];
   }
+]; 
 
-document.getElementById("#generate").value = password;
-  return password;
+function createPassword() {
+  const upper = document.getElementById("upperCase").checked;
+  const lower = document.getElementById("lowerCase").checked;
+  const number = document.getElementById("number").checked;
+  const symbol = document.getElementById("symbol").checked;
+  if (upper + lower + number + symbol === 0) {
+    alert("Please check atleast one box!");
+    return;
+  }
+  const passwordBox = document.getElementById("passwordBox");
+  const length = document.getElementById("length");
+  let password = "";
+  while (length.value > password.length) {
+    let keyToAdd = getKey[Math.floor(Math.random() * getKey.length)];
+    let isChecked = document.getElementById(keyToAdd.name).checked;
+    if (isChecked) {
+      password += keyToAdd();
+    }
+  }
+  passwordBox.innerHTML = password;
 }
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
-
-  passwordText.value = password;
-
-}
-
 // Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
+generateBtn.addEventListener("click",createPassword);
 
